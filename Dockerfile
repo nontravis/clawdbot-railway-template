@@ -33,7 +33,7 @@ RUN set -eux; \
     sed -i -E 's/"openclaw"[[:space:]]*:[[:space:]]*"workspace:[^"]+"/"openclaw": "*"/g' "$f"; \
   done
 
-RUN echo "minimumReleaseAge=0" >> .npmrc && pnpm install --no-frozen-lockfile
+RUN sed -i '/^minimumReleaseAge/d' .npmrc; echo "minimumReleaseAge=0" >> .npmrc && pnpm install --no-frozen-lockfile
 RUN pnpm build
 ENV OPENCLAW_PREFER_PNPM=1
 RUN pnpm ui:install && pnpm ui:build
